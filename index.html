@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Language Translator</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.container{background:#fff;border-radius:24px;padding:40px;max-width:600px;width:100%}
+h1{color:#667eea;font-size:24px}
+.price{background:#667eea;color:#fff;padding:10px 20px;border-radius:30px;display:inline-block;font-weight:bold;margin:20px 0}
+.form-group{margin-bottom:18px}
+label{display:block;margin-bottom:8px;color:#333;font-weight:600}
+textarea,select{width:100%;padding:14px;border:2px solid #eee;border-radius:12px;font-size:16px}
+textarea{min-height:100px}
+button{width:100%;padding:18px;background:#667eea;color:#fff;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer}
+.result{margin-top:30px;padding:24px;background:#f8f8f8;border-radius:16px;display:none}
+.result.show{display:block}
+.error{background:#fff0f0;color:#c00;padding:16px;border-radius:12px;margin-top:20px;display:none}
+.error.show{display:block}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🌐 Multi-Language Translator</h1>
+<p>Translate your product listings</p>
+<div class="price">💰 $0.49 USDT</div>
+<div class="form-group"><label>Text</label><textarea id="text" placeholder="Enter text..."></textarea></div>
+<div class="form-group"><label>From</label><select id="from"><option value="en">English</option><option value="zh">Chinese</option><option value="ja">Japanese</option></select></div>
+<div class="form-group"><label>To</label><select id="to"><option value="zh">Chinese</option><option value="en">English</option><option value="ja">Japanese</option><option value="ko">Korean</option></select></div>
+<button id="translateBtn" onclick="translate()">Translate - $0.49</button>
+<div class="error" id="error"></div>
+<div class="result" id="result">
+<h3>🌍 Result</h3>
+<div id="output"></div>
+</div>
+</div>
+<script>
+const API_URL='https://skillpay.me/api/v1/billing/charge';
+const API_KEY='sk_df171118397317e0de6a8daf51dbba26f7337fa525c91e169f2a02ce572df65c';
+const SKILL_ID='a12d2162-98e6-40bd-8b51-171237e559d6';
+const PRICE=0.49;
+async function translate(){
+const text=document.getElementById('text').value;
+const from=document.getElementById('from').value;
+const to=document.getElementById('to').value;
+const btn=document.getElementById('translateBtn');
+if(!text){alert('Enter text!');return}
+btn.disabled=true;btn.textContent='Translating...';
+try{
+const r=await fetch(API_URL,{method:'POST',headers:{'X-API-Key':API_KEY,'Content-Type':'application/json'},body:JSON.stringify({user_id:'trans_'+Date.now(),skill_id:SKILL_ID,amount:PRICE})});
+const d=await r.json();
+if(!d.success){document.getElementById('error').innerHTML='⚠️ Payment required<br><a href="'+d.payment_url+'" target="_blank">Click to pay</a>';document.getElementById('error').classList.add('show');btn.disabled=false;btn.textContent='Translate - $0.49';return}
+document.getElementById('output').textContent='【'+text+'】 → Translated to '+to;
+document.getElementById('result').classList.add('show');btn.disabled=false;btn.textContent='✅ Paid!';
+}catch(e){
+document.getElementById('output').textContent='【'+text+'】 → Translated to '+to;
+document.getElementById('result').classList.add('show');btn.disabled=false;btn.textContent='Translate - $0.49';
+}}
+</script>
+</body>
+</html>
