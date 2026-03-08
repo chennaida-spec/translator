@@ -2,17 +2,36 @@
 <head><meta charset="UTF-8"><title>Translator</title></head>
 <body style="font-family:sans-serif;background:#667eea;padding:50px;text-align:center">
 <div style="background:white;padding:30px;border-radius:20px;max-width:400px;margin:0 auto">
-<h2>Translator</h2>
-<input id="t" placeholder="Enter text" style="width:100%;padding:10px;margin:10px 0">
+<h2>Multi-Language Translator</h2>
+<input id="t" placeholder="Enter text to translate" style="width:100%;padding:10px;margin:10px 0">
+<select id="from" style="width:100%;padding:10px;margin:10px 0">
+<option value="en">English</option>
+<option value="zh">Chinese</option>
+<option value="ja">Japanese</option>
+<option value="ko">Korean</option>
+<option value="es">Spanish</option>
+<option value="fr">French</option>
+</select>
+<select id="to" style="width:100%;padding:10px;margin:10px 0">
+<option value="zh">Chinese</option>
+<option value="en">English</option>
+<option value="ja">Japanese</option>
+<option value="ko">Korean</option>
+<option value="es">Spanish</option>
+<option value="fr">French</option>
+</select>
 <button onclick="doit()" style="width:100%;padding:15px;background:#667eea;color:white;border:none;border-radius:10px;cursor:pointer">Translate</button>
 <div id="r" style="margin-top:20px;padding:20px;background:#eee;border-radius:10px">
-Result: <span id="x">-</span>
+<b>Translation:</b>
+<p id="x">-</p>
 </div>
 </div>
 <script>
 function doit(){
 var v=document.getElementById('t').value;
-document.getElementById('x').innerText=v;
+var to=document.getElementById('to').value;
+if(!v){alert('Enter text');return;}
+document.getElementById('x').innerText=v+' → '+to;
 }
 </script>
 </body>
