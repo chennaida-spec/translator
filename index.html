@@ -1,40 +1,18 @@
-<!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Translator</title>
-<style>
-body{font-family:-apple-system;background:#667eea;padding:20px;margin:0}
-.container{background:#fff;border-radius:20px;padding:30px;max-width:500px;margin:0 auto}
-h1{color:#333;margin:0 0 10px}
-input,select{width:100%;padding:12px;margin:10px 0;border:1px solid #ddd;border-radius:8px}
-button{width:100%;padding:15px;background:#667eea;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer}
-#result{padding:20px;background:#f5f5f5;border-radius:10px;margin-top:20px;display:none}
-#result.show{display:block}
-</style>
-</head>
-<body>
-<div class="container">
-<h1>Translator</h1>
-<p>Enter text to translate</p>
-<input type="text" id="text" placeholder="Hello">
-<select id="from"><option value="en">English</option><option value="zh">Chinese</option></select>
-<select id="to"><option value="zh">Chinese</option><option value="en">English</option></select>
-<button onclick="translate()">Translate</button>
-<div id="result">
-<h3>Result:</h3>
-<p id="output"></p>
+<head><meta charset="UTF-8"><title>Translator</title></head>
+<body style="font-family:sans-serif;background:#667eea;padding:50px;text-align:center">
+<div style="background:white;padding:30px;border-radius:20px;max-width:400px;margin:0 auto">
+<h2>Translator</h2>
+<input id="t" placeholder="Enter text" style="width:100%;padding:10px;margin:10px 0">
+<button onclick="doit()" style="width:100%;padding:15px;background:#667eea;color:white;border:none;border-radius:10px;cursor:pointer">Translate</button>
+<div id="r" style="margin-top:20px;padding:20px;background:#eee;border-radius:10px">
+Result: <span id="x">-</span>
 </div>
 </div>
 <script>
-function translate(){
-var t=document.getElementById('text').value;
-var f=document.getElementById('from').value;
-var o=document.getElementById('to').value;
-if(!t){alert('Enter text');return;}
-document.getElementById('output').innerText=t+' -> '+o;
-document.getElementById('result').className='show';
+function doit(){
+var v=document.getElementById('t').value;
+document.getElementById('x').innerText=v;
 }
 </script>
 </body>
