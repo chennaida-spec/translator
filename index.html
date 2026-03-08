@@ -13,12 +13,10 @@ h1{color:#667eea;font-size:24px}
 .form-group{margin-bottom:18px}
 label{display:block;margin-bottom:8px;color:#333;font-weight:600}
 textarea,select{width:100%;padding:14px;border:2px solid #eee;border-radius:12px;font-size:16px}
-textarea{min-height:100px}
+textarea{min-height:80px}
 button{width:100%;padding:18px;background:#667eea;color:#fff;border:none;border-radius:12px;font-size:18px;font-weight:bold;cursor:pointer}
-.result{margin-top:30px;padding:24px;background:#f8f8f8;border-radius:16px;display:none}
+.result{margin-top:30px;padding:24px;background:#f0f0f0;border-radius:16px;display:none}
 .result.show{display:block}
-.error{background:#fff0f0;color:#c00;padding:16px;border-radius:12px;margin-top:20px;display:none}
-.error.show{display:block}
 </style>
 </head>
 <body>
@@ -29,35 +27,21 @@ button{width:100%;padding:18px;background:#667eea;color:#fff;border:none;border-
 <div class="form-group"><label>Text</label><textarea id="text" placeholder="Enter text..."></textarea></div>
 <div class="form-group"><label>From</label><select id="from"><option value="en">English</option><option value="zh">Chinese</option><option value="ja">Japanese</option></select></div>
 <div class="form-group"><label>To</label><select id="to"><option value="zh">Chinese</option><option value="en">English</option><option value="ja">Japanese</option><option value="ko">Korean</option></select></div>
-<button id="translateBtn" onclick="translate()">Translate - $0.49</button>
-<div class="error" id="error"></div>
+<button onclick="translate()">Translate - $0.49</button>
 <div class="result" id="result">
 <h3>🌍 Result</h3>
-<div id="output"></div>
+<p id="output"></p>
 </div>
 </div>
 <script>
-const API_URL='https://skillpay.me/api/v1/billing/charge';
-const API_KEY='sk_df171118397317e0de6a8daf51dbba26f7337fa525c91e169f2a02ce572df65c';
-const SKILL_ID='a12d2162-98e6-40bd-8b51-171237e559d6';
-const PRICE=0.49;
-async function translate(){
-const text=document.getElementById('text').value;
-const from=document.getElementById('from').value;
-const to=document.getElementById('to').value;
-const btn=document.getElementById('translateBtn');
-if(!text){alert('Enter text!');return}
-btn.disabled=true;btn.textContent='Translating...';
-try{
-const r=await fetch(API_URL,{method:'POST',headers:{'X-API-Key':API_KEY,'Content-Type':'application/json'},body:JSON.stringify({user_id:'trans_'+Date.now(),skill_id:SKILL_ID,amount:PRICE})});
-const d=await r.json();
-if(!d.success){document.getElementById('error').innerHTML='⚠️ Payment required<br><a href="'+d.payment_url+'" target="_blank">Click to pay</a>';document.getElementById('error').classList.add('show');btn.disabled=false;btn.textContent='Translate - $0.49';return}
-document.getElementById('output').textContent='【'+text+'】 → Translated to '+to;
-document.getElementById('result').classList.add('show');btn.disabled=false;btn.textContent='✅ Paid!';
-}catch(e){
-document.getElementById('output').textContent='【'+text+'】 → Translated to '+to;
-document.getElementById('result').classList.add('show');btn.disabled=false;btn.textContent='Translate - $0.49';
-}}
+function translate(){
+var text=document.getElementById('text').value;
+var from=document.getElementById('from').value;
+var to=document.getElementById('to').value;
+if(!text){alert('Enter text!');return;}
+document.getElementById('output').innerHTML='<strong>'+from+' → '+to+':</strong><br>【'+text+'】';
+document.getElementById('result').className='result show';
+}
 </script>
 </body>
 </html>
